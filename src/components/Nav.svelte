@@ -1,60 +1,115 @@
 <script>
-	export let segment;
+  import TopNav from "../components/TopNav.svelte";
+
+  export let segment;
 </script>
 
 <style>
-	nav {
-		border-bottom: 1px solid rgba(255,62,0,0.1);
-		font-weight: 300;
-		padding: 0 1em;
-	}
+  .container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: -70px;
+  }
 
-	ul {
-		margin: 0;
-		padding: 0;
-	}
+  nav {
+    align-self: center;
+    margin-top: 15px;
+  }
 
-	/* clearfix */
-	ul::after {
-		content: '';
-		display: block;
-		clear: both;
-	}
+  ul {
+    padding-inline-start: 0;
+  }
 
-	li {
-		display: block;
-		float: left;
-	}
+  ul > li {
+    display: inline-block;
+  }
 
-	.selected {
-		position: relative;
-		display: inline-block;
-	}
+  ul > li > a {
+    text-decoration: none;
+    font-size: 16px;
+    margin-left: 10px;
+  }
 
-	.selected::after {
-		position: absolute;
-		content: '';
-		width: calc(100% - 1em);
-		height: 2px;
-		background-color: rgb(255,62,0);
-		display: block;
-		bottom: -1px;
-	}
+  ul > li:last-child::after {
+    content: "";
+  }
 
-	a {
-		text-decoration: none;
-		padding: 1em 0.5em;
-		display: block;
-	}
+  ul > li::after {
+    content: "•";
+    display: inline-block;
+    margin: 0 0 0 15px;
+    font-size: 9px;
+    vertical-align: middle;
+  }
+
+  /* Iphone 6/7/8/Plus */
+  @media (max-width: 414px) {
+    .container {
+      flex-flow: column-reverse;
+      margin-bottom: 0;
+      max-height: 100vh;
+      box-shadow: 0px -18px 48px 4px rgba(0, 0, 0, 0.75);
+    }
+
+    nav {
+      width: 100%;
+      margin-top: 0;
+      align-self: flex-start;
+      border-bottom: 1px solid #ededed;
+    }
+
+    ul {
+      padding-inline-start: 40px;
+    }
+
+    ul > li {
+      display: block;
+    }
+
+    ul > li::after {
+      content: "";
+      display: block;
+      margin: 0;
+      font-size: 9px;
+    }
+
+    ul > li > a {
+      font-size: 22px;
+      margin-left: 0;
+      line-height: 40px;
+    }
+  }
 </style>
 
-<nav>
-	<ul>
-		<li><a class='{segment === undefined ? "selected" : ""}' href='.'>home</a></li>
-		<li><a class='{segment === "about" ? "selected" : ""}' href='about'>about</a></li>
+<div class="container">
+  <TopNav />
+  <nav>
+    <ul>
+      <li>
+        <a class={segment === undefined ? 'selected' : ''} href=".">Accueil</a>
+      </li>
+      <li>
+        <a class={segment === 'about' ? 'selected' : ''} href="about">
+          Thérapie
+        </a>
+      </li>
+      <li>
+        <a class={segment === 'about' ? 'selected' : ''} href="about">
+          Spécialités
+        </a>
+      </li>
 
-		<!-- for the blog link, we're using rel=prefetch so that Sapper prefetches
+      <!-- for the blog link, we're using rel=prefetch so that Sapper prefetches
 		     the blog data when we hover over the link or tap it on a touchscreen -->
-		<li><a rel=prefetch class='{segment === "blog" ? "selected" : ""}' href='blog'>blog</a></li>
-	</ul>
-</nav>
+      <li>
+        <a
+          rel="prefetch"
+          class={segment === 'blog' ? 'selected' : ''}
+          href="blog">
+          blog
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+</div>

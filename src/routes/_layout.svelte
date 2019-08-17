@@ -1,22 +1,49 @@
 <script>
-	import Nav from '../components/Nav.svelte';
+  import Nav from "../components/Nav.svelte";
+  import MobileNav from "../components/MobileNav.svelte";
+  import TopBanner from "../components/TopBanner.svelte";
 
-	export let segment;
+  export let segment;
 </script>
 
 <style>
-	main {
-		position: relative;
-		max-width: 56em;
-		background-color: white;
-		padding: 2em;
-		margin: 0 auto;
-		box-sizing: border-box;
-	}
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .full {
+    display: block;
+  }
+
+  .mobile {
+    display: none;
+  }
+
+  /* Iphone 6/7/8/Plus */
+  @media (max-width: 414px) {
+    .full {
+      display: none;
+    }
+
+    .mobile {
+      display: block;
+    }
+  }
 </style>
 
-<Nav {segment}/>
+<header>
+  <div class="container">
+    <div class="full">
+      <Nav {segment} />
+    </div>
+    <div class="mobile">
+      <MobileNav {segment} />
+    </div>
+    <TopBanner />
+  </div>
+</header>
 
 <main>
-	<slot></slot>
+  <slot />
 </main>
