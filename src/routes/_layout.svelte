@@ -3,6 +3,10 @@
   import MobileNav from "../components/MobileNav.svelte";
   import TopBanner from "../components/TopBanner.svelte";
 
+  import { client } from "../apollo";
+  import { setClient } from "svelte-apollo";
+  setClient(client);
+
   export let segment;
 </script>
 

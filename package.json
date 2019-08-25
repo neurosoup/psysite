@@ -1,6 +1,6 @@
 {
   "name": "psysite",
-  "description": "TODO",
+  "description": "Anne-Angélique Zémour",
   "version": "0.0.1",
   "scripts": {
     "dev": "sapper dev",
@@ -10,7 +10,11 @@
     "test": "run-p --race dev cy:run"
   },
   "dependencies": {
+    "apollo-cache-inmemory": "^1.6.3",
+    "apollo-client": "^2.6.4",
+    "apollo-link-prismic": "^1.0.2",
     "compression": "^1.7.1",
+    "graphql-tag": "^2.10.1",
     "polka": "next",
     "sirv": "^0.4.0"
   },
@@ -22,6 +26,7 @@
     "postcss-url": "^8.0.0",
     "sapper": "^0.27.0",
     "svelte": "^3.0.0",
+    "svelte-apollo": "^0.3.0",
     "svelte-feather-icons": "^2.0.0",
     "svelte-loader": "^2.9.0",
     "svelte-preprocess": "^2.15.1",

@@ -1,7 +1,7 @@
 <style>
   img {
     width: 100%;
-    height: 594px;
+    height: 640px;
     z-index: -1;
     object-fit: cover;
   }

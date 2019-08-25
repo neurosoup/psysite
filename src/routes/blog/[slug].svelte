@@ -1,64 +1,60 @@
 <script context="module">
-	export async function preload({ params, query }) {
-		// the `slug` parameter is available because
-		// this file is called [slug].svelte
-		const res = await this.fetch(`blog/${params.slug}.json`);
-		const data = await res.json();
+  import gql from "graphql-tag";
+  import { client } from "../../apollo";
 
-		if (res.status === 200) {
-			return { post: data };
-		} else {
-			this.error(res.status, data.message);
-		}
-	}
+  const POST = gql`
+    query posts($slug: String!) {
+      allPosts(uid: $slug) {
+        edges {
+          node {
+            _meta {
+              uid
+            }
+            title
+            intro
+            content
+          }
+        }
+      }
+    }
+  `;
+
+  export async function preload({ params }) {
+    return {
+      slug: params.slug,
+      cache: await client.query({
+        query: POST,
+        variables: { slug: params.slug }
+      })
+    };
+  }
 </script>
 
 <script>
-	export let post;
+  import { restore, query, getClient } from "svelte-apollo";
+
+  export let cache;
+  export let slug;
+
+  const apolloClient = getClient();
+  restore(apolloClient, POST, cache.data);
+
+  const postQuery = query(apolloClient, {
+    query: POST,
+    variables: { slug }
+  });
 </script>
 
 <style>
-	/*
-		By default, CSS is locally scoped to the component,
-		and any unused styles are dead-code-eliminated.
-		In this page, Svelte can't know which elements are
-		going to appear inside the {{{post.html}}} block,
-		so we have to use the :global(...) modifier to target
-		all elements inside .content
-	*/
-	.content :global(h2) {
-		font-size: 1.4em;
-		font-weight: 500;
-	}
 
-	.content :global(pre) {
-		background-color: #f9f9f9;
-		box-shadow: inset 1px 1px 5px rgba(0,0,0,0.05);
-		padding: 0.5em;
-		border-radius: 2px;
-		overflow-x: auto;
-	}
-
-	.content :global(pre) :global(code) {
-		background-color: transparent;
-		padding: 0;
-	}
-
-	.content :global(ul) {
-		line-height: 1.5;
-	}
-
-	.content :global(li) {
-		margin: 0 0 0.5em 0;
-	}
 </style>
 
-<svelte:head>
-	<title>{post.title}</title>
-</svelte:head>
-
-<h1>{post.title}</h1>
-
-<div class='content'>
-	{@html post.html}
+<div class="content">
+  {#await $postQuery}
+    <li>Loading...</li>
+  {:then result}
+    <h1>{result.data.allPosts.edges[0].node.title[0].text}</h1>
+  {:catch error}
+    <li>Error loading post: {error}</li>
+  {/await}
 </div>
