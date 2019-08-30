@@ -50,9 +50,14 @@
   ...
 {:then result}
   <ul>
-    <li>
-      <a rel="prefetch" href="blog/hello-world">Hello world</a>
-    </li>
+    {#each result.data.allPosts.edges as post}
+      <li>
+        <a rel="prefetch" href={`blog/${post.node._meta.uid}`}>
+          <h1>{post.node.title[0].text}</h1>
+        </a>
+        <h2>{post.node.intro[0].text}</h2>
+      </li>
+    {/each}
   </ul>
 {:catch error}
   {error}

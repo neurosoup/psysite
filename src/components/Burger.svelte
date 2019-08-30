@@ -1,5 +1,5 @@
 <script>
-  import Nav from "./Nav.svelte";
+  import Menu from "./Menu.svelte";
   import { MenuIcon, XIcon } from "svelte-feather-icons";
 
   export let segment;
@@ -35,20 +35,20 @@
     align-items: center;
     padding: 20px;
     background-color: #fff;
+    font-size: 2.5vw;
   }
 
   .burger {
     width: 32px;
-    margin-top: 6px;
   }
 </style>
 
 <div class="container">
   {#if opened}
-    <Nav />
+    <Menu />
   {/if}
   <div class="menu-header">
-    <h1>La psychanalyste</h1>
+    <h1>Anne-Angélique Zémour</h1>
     <div class="burger" on:click={burgerClick}>
       {#if opened}
         <XIcon />

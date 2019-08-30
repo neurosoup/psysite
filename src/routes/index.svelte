@@ -1,7 +1,5 @@
-<style>
-
-</style>
-
-<svelte:head>
-  <title>La psychanalyste</title>
-</svelte:head>
+<script context="module">
+  export async function preload() {
+    return this.redirect(302, "home");
+  }
+</script>
