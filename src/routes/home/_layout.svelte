@@ -1,6 +1,6 @@
 <script>
   import Navigation from "../../components/Navigation.svelte";
-  import TopBanner from "../../components/TopBanner.svelte";
+  import TopBanner from "./components/TopBanner.svelte";
 
   import { client } from "../../apollo";
   import { setClient } from "svelte-apollo";
@@ -18,7 +18,7 @@
 
 <header>
   <div class="container">
-    <Navigation />
+    <Navigation {segment} />
     <TopBanner />
   </div>
 </header>

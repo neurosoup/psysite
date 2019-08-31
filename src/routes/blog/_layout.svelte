@@ -21,11 +21,9 @@
 
 <div class="container">
   <header>
-    <Navigation />
+    <Navigation {segment} />
   </header>
-  <main>
-    <div class="main">
-      <slot />
-    </div>
+  <main class="main">
+    <slot />
   </main>
 </div>

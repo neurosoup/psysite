@@ -51,10 +51,10 @@
 
 <div class="content">
   {#await $postQuery}
-    <li>Loading...</li>
+    <h1>...</h1>
   {:then result}
     <h1>{result.data.allPosts.edges[0].node.title[0].text}</h1>
   {:catch error}
-    <li>Error loading post: {error}</li>
+    <h1>{error}</h1>
   {/await}
 </div>

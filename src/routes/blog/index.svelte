@@ -1,28 +1,11 @@
 <script context="module">
-  import gql from "graphql-tag";
   import { client } from "../../apollo";
-
-  const POSTS = gql`
-    query posts {
-      allPosts {
-        edges {
-          node {
-            _meta {
-              uid
-            }
-            title
-            intro
-            content
-          }
-        }
-      }
-    }
-  `;
+  import { BLOG } from "./queries";
 
   export async function preload() {
     return {
       cache: await client.query({
-        query: POSTS
+        query: BLOG
       })
     };
   }
@@ -30,13 +13,15 @@
 
 <script>
   import { restore, query, getClient } from "svelte-apollo";
+  import LoadingDots from "../../components/LoadingDots.svelte";
+  import Banner from "./components/Banner.svelte";
 
   const apolloClient = getClient();
 
   export let cache;
-  restore(apolloClient, POSTS, cache.data);
+  restore(apolloClient, BLOG, cache.data);
 
-  const postsQuery = query(apolloClient, { query: POSTS });
+  const blog = query(apolloClient, { query: BLOG });
 </script>
 
 <style>
@@ -46,9 +31,12 @@
   }
 </style>
 
-{#await $postsQuery}
-  ...
+{#await $blog}
+  <LoadingDots>
+    <h1>Articles</h1>
+  </LoadingDots>
 {:then result}
+  <Banner />
   <ul>
     {#each result.data.allPosts.edges as post}
       <li>
