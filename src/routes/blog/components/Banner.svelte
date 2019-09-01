@@ -17,7 +17,7 @@
   </LoadingDots>
 {:then result}
   <h1>{result.data.allBlog_banners.edges[0].node.title[0].text}</h1>
-  <p>{result.data.allBlog_banners.edges[0].node.introduction[0].text}</p>
+  <p>{result.data.allBlog_banners.edges[0].node.intro[0].text}</p>
 {:catch error}
   <h1>{error}</h1>
 {/await}

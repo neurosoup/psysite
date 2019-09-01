@@ -6,11 +6,27 @@ export const BLOG = gql`
       edges {
         node {
           title
-          introduction
+          intro
         }
       }
     }
     allPosts {
+      edges {
+        node {
+          _meta {
+            uid
+          }
+          title
+          intro
+        }
+      }
+    }
+  }
+`;
+
+export const POST = gql`
+  query posts($slug: String!) {
+    allPosts(uid: $slug) {
       edges {
         node {
           _meta {

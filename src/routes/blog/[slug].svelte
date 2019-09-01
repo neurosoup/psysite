@@ -1,23 +1,7 @@
 <script context="module">
   import gql from "graphql-tag";
   import { client } from "../../apollo";
-
-  const POST = gql`
-    query posts($slug: String!) {
-      allPosts(uid: $slug) {
-        edges {
-          node {
-            _meta {
-              uid
-            }
-            title
-            intro
-            content
-          }
-        }
-      }
-    }
-  `;
+  import { POST } from "./queries";
 
   export async function preload({ params }) {
     return {
