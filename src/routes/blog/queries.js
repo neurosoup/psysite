@@ -16,6 +16,7 @@ export const BLOG = gql`
           _meta {
             uid
           }
+          featured_image
           title
           intro
         }
@@ -32,6 +33,7 @@ export const POST = gql`
           _meta {
             uid
           }
+          featured_image
           title
           intro
           content

@@ -8,16 +8,25 @@
 </script>
 
 <style>
-
+  h1 {
+    white-space: nowrap;
+  }
+  .header {
+    text-align: center;
+    max-width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .justified {
+    text-align: justify;
+  }
 </style>
 
-{#await $blog}
-  <LoadingDots>
-    <h1>Blog</h1>
-  </LoadingDots>
-{:then result}
-  <h1>{result.data.allBlog_banners.edges[0].node.title[0].text}</h1>
-  <p>{result.data.allBlog_banners.edges[0].node.intro[0].text}</p>
-{:catch error}
-  <h1>{error}</h1>
+{#await $blog then result}
+  <div class="header">
+    <h1>{result.data.allBlog_banners.edges[0].node.title[0].text}</h1>
+    <div class="justified">
+      <p>{result.data.allBlog_banners.edges[0].node.intro[0].text}</p>
+    </div>
+  </div>
 {/await}

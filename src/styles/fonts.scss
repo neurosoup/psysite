@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css?family=EB+Garamond:400&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Work+Sans:300,700&display=swap');
+
+// unitless function to convert px to em
+@function em($pixels, $context: $browser-context) {
+  @if (unitless($pixels)) {
+    $pixels: $pixels * 1px;
+  }
+  @if (unitless($context)) {
+    $context: $context * 1px;
+  }
+  @return $pixels / $context * 1em;
+}
+
+// breakpoint mixin
+@mixin breakpoint($mq1: 0, $mq2: false, $maxmin: max-width) {
+  @if $mq2 == false {
+    @media ($maxmin: $mq1) {
+      @content;
+    }
+  } @else {
+    @media (min-width: $mq1) and (max-width: $mq2) {
+      @content;
+    }
+  }
+}
+
+// responsive font size mixin
+@mixin font-size-map($font-size-map) {
+  @each $breakpoint, $font-size in $font-size-map {
+    @if $breakpoint == null {
+      font-size: em($font-size);
+    } @else {
+      @include breakpoint($breakpoint) {
+        font-size: em($font-size);
+      }
+    }
+  }
+}
+
+// breakpoint variables
+$lg: 1170px;
+$md: 1024px;
+$sm: 640px;
+$xs: 480px;
+
+// body font size
+$browser-context: 16;
+
+// typography scale
+$body-font-size: (
+  null: 16,
+  $md: 15,
+  $sm: 14,
+  $xs: 13
+);
+$h1-font-size: (
+  null: 32px
+);
+$h2-font-size: (
+  null: 24px
+);
+$h3-font-size: (
+  null: 16px
+);
+
+html {
+  line-height: 1.2;
+  @include font-size-map($body-font-size);
+  font-family: 'Work Sans', sans-serif;
+  font-weight: 300;
+}
+
+h1 {
+  @include font-size-map($h1-font-size);
+  font-family: 'EB Garamond', serif;
+  font-weight: 400;
+}
+
+h2 {
+  @include font-size-map($h2-font-size);
+  font-family: 'EB Garamond', serif;
+  font-weight: 400;
+}
+
+h3 {
+  @include font-size-map($h3-font-size);
+  font-family: 'EB Garamond', serif;
+  font-weight: 400;
+}

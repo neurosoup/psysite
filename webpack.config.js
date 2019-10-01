@@ -1,5 +1,9 @@
+const fs = require('fs');
 const webpack = require('webpack');
 const path = require('path');
+const sass = require('node-sass');
+const postcss = require('postcss');
+
 const config = require('sapper/config/webpack.js');
 const pkg = require('./package.json');
 
@@ -10,8 +14,38 @@ const alias = { svelte: path.resolve('node_modules', 'svelte') };
 const extensions = ['.mjs', '.js', '.json', '.svelte', '.html'];
 const mainFields = ['svelte', 'module', 'browser', 'main'];
 
+// generating global css file https://github.com/sveltejs/sapper/issues/357
+// sass.render(
+//   {
+//     file: './src/styles/global.scss',
+//     indentedSyntax: true,
+//     outFile: './static/global.css'
+//   },
+//   function(error, result) {
+//     if (!error) {
+//       postcss()
+//         .process(result.css, {
+//           from: './static/global.css',
+//           to: './static/global.css'
+//         })
+//         .then(result =>
+//           fs.writeFile('./static/global.css', result.css, function(err) {
+//             if (err) {
+//               console.log(err);
+//             }
+//           })
+//         );
+//     } else {
+//       console.log(error);
+//     }
+//   }
+// );
+
 const preprocessOptions = {
   transformers: {
+    scss: {
+      includePaths: ['src']
+    },
     postcss: {
       plugins: [
         require('postcss-import')(),

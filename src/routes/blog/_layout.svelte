@@ -9,21 +9,14 @@
 </script>
 
 <style>
-  .container {
-    display: flex;
-    flex-direction: column;
-  }
-
   .main {
     margin-top: 75px;
   }
 </style>
 
-<div class="container">
-  <header>
-    <Navigation {segment} />
-  </header>
-  <main class="main">
-    <slot />
-  </main>
-</div>
+<header>
+  <Navigation {segment} />
+</header>
+<main class="main">
+  <slot />
+</main>
