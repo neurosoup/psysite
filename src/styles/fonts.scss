@@ -39,23 +39,26 @@
 }
 
 // breakpoint variables
+$hg: 2560px;
 $lg: 1170px;
 $md: 1024px;
 $sm: 640px;
 $xs: 480px;
 
 // body font size
-$browser-context: 16;
+$browser-context: 17;
 
 // typography scale
 $body-font-size: (
-  null: 16,
+  null: 17,
+  $hg: 17,
+  $lg: 16,
   $md: 15,
   $sm: 14,
   $xs: 13
 );
 $h1-font-size: (
-  null: 32px
+  null: 42px
 );
 $h2-font-size: (
   null: 24px

@@ -35,94 +35,45 @@
   }
 
   .outer {
-    margin: 30px 60px 0 60px;
+    margin: 10px 30px 0 30px;
   }
 
-  /* https://w3bits.com/labs/flexbox-masonry/2/  */
-  .masonry {
-    display: flex;
-    width: 100%;
-    flex-flow: column wrap;
-    margin-left: -16px;
-    max-height: 1069px;
+  .masonry-layout {
+    column-count: 1;
+    column-gap: 0;
   }
 
-  .masonry-brick {
-    overflow: hidden;
-    margin: 45px 8px 8px 8px;
-    position: relative;
-    width: 100%;
-    width: 33.3333%;
+  .masonry-layout-panel {
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
 
-  @media only screen and (max-width: 767px) {
+  .masonry-layout-panel-content {
+    padding: 10px;
+  }
+
+  @media (min-width: 768px) {
     .outer {
-      margin: 10px 20px 0 20px;
+      margin: 10px 60px 0 60px;
     }
-    .masonry {
-      margin-left: -8px;
-      max-height: none;
+    .masonry-layout {
+      column-count: 2;
     }
-    .masonry-brick {
-      width: 100%;
-    }
-  }
-
-  @media only screen and (min-width: 768px) and (max-width: 1023px) {
-    .masonry {
-      max-height: 1595px;
-    }
-    .masonry-brick {
-      width: 50%;
+    .masonry-layout-panel {
+      margin-inline-start: 10px;
+      margin-inline-end: 10px;
     }
   }
 
-  @media only screen and (min-width: 1024px) and (max-width: 1223px) {
-    .masonry {
-      margin-left: -23px;
-      max-height: 953px;
-    }
-    .masonry-brick {
-      width: 33.3333%;
+  @media (min-width: 1200px) {
+    .masonry-layout {
+      column-count: 3;
     }
   }
 
-  @media only screen and (min-width: 1224px) and (max-width: 1439px) {
-    .masonry {
-      margin-left: -23px;
-      max-height: 1054px;
-    }
-    .masonry-brick {
-      width: 33.3333%;
-    }
-  }
-
-  @media only screen and (min-width: 1440px) and (max-width: 1766) {
-    .masonry {
-      margin-left: -24px;
-      max-height: 1169px;
-    }
-    .masonry-brick {
-      width: 33.3333%;
-    }
-  }
-
-  @media only screen and (min-width: 1440px) {
+  @media (min-width: 2560px) {
     .outer {
-      margin: 40px 120px 0 120px;
-    }
-    .masonry {
-      margin-left: -50px;
-    }
-    .masonry-brick {
-      margin: 45px 16px 16px 16px;
-      width: 33.3333%;
-    }
-  }
-
-  @media only screen and (min-width: 1766px) {
-    .masonry {
-      max-height: 1269px;
+      margin: 10px 260px 0 260px;
     }
   }
 
@@ -130,25 +81,33 @@
     object-fit: cover;
     width: 100%;
     height: 100%;
-    /* filter: brightness(50%); */
+  }
+
+  .sub-header {
+    border-bottom: 1px solid #ececec;
+    padding-bottom: 10px;
   }
 </style>
 
 {#await $blog then result}
-  <Banner />
+  <div class="sub-header">
+    <Banner />
+  </div>
   <div class="outer">
-    <div class="masonry">
+    <div class="masonry-layout">
       {#each result.data.allPosts.edges as post, index}
-        <figure class="masonry-brick">
-          <a rel="prefetch" href={`blog/${post.node._meta.uid}`}>
-            <img
-              class="masonry-img"
-              src={post.node.featured_image.url}
-              alt={post.node.featured_image.alt} />
-            <h2>{post.node.title[0].text}</h2>
-          </a>
-          <div class="intro">{post.node.intro[0].text}</div>
-        </figure>
+        <div class="masonry-layout-panel">
+          <div class="masonry-layout-panel-content">
+            <a rel="prefetch" href={`blog/${post.node._meta.uid}`}>
+              <img
+                class="masonry-img"
+                src={post.node.featured_image.url}
+                alt={post.node.featured_image.alt} />
+              <h2>{post.node.title[0].text}</h2>
+            </a>
+            <div class="intro">{post.node.intro[0].text}</div>
+          </div>
+        </div>
       {/each}
     </div>
 

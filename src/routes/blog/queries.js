@@ -1,6 +1,31 @@
 import gql from 'graphql-tag';
 
+const META = gql`
+  fragment Meta on Meta {
+    uid
+    lastPublicationDate
+    tags
+  }
+`;
+
+const FULL_POST = gql`
+  fragment FullPost on Post {
+    content
+  }
+`;
+
+const PARTIAL_POST = gql`
+  fragment PartialPost on Post {
+    featured_image
+    title
+    intro
+  }
+`;
+
 export const BLOG = gql`
+  ${META}
+  ${PARTIAL_POST}
+
   query blog {
     allBlog_banners {
       edges {
@@ -14,11 +39,9 @@ export const BLOG = gql`
       edges {
         node {
           _meta {
-            uid
+            ...Meta
           }
-          featured_image
-          title
-          intro
+          ...PartialPost
         }
       }
     }
@@ -26,17 +49,19 @@ export const BLOG = gql`
 `;
 
 export const POST = gql`
+  ${META}
+  ${PARTIAL_POST}
+  ${FULL_POST}
+
   query posts($slug: String!) {
     allPosts(uid: $slug) {
       edges {
         node {
           _meta {
-            uid
+            ...Meta
           }
-          featured_image
-          title
-          intro
-          content
+          ...PartialPost
+          ...FullPost
         }
       }
     }
