@@ -13,14 +13,15 @@
 
 <script>
   import { restore, query, getClient } from "svelte-apollo";
+  import moment from "moment";
   import LoadingDots from "../../components/LoadingDots.svelte";
   import Banner from "./components/Banner.svelte";
 
-  const apolloClient = getClient();
+  moment.locale("fr");
 
+  const apolloClient = getClient();
   export let cache;
   restore(apolloClient, BLOG, cache.data);
-
   const blog = query(apolloClient, { query: BLOG });
 </script>
 
@@ -87,6 +88,13 @@
     border-bottom: 1px solid #ececec;
     padding-bottom: 10px;
   }
+
+  .ago {
+    font-size: calc(8px + 0.35vw);
+    padding-bottom: 12px;
+    text-transform: uppercase;
+    color: #9e9e9e;
+  }
 </style>
 
 {#await $blog then result}
@@ -104,6 +112,9 @@
                 src={post.node.featured_image.url}
                 alt={post.node.featured_image.alt} />
               <h2>{post.node.title[0].text}</h2>
+              <div class="ago">
+                {moment(post.node._meta.lastPublicationDate).fromNow()}
+              </div>
             </a>
             <div class="intro">{post.node.intro[0].text}</div>
           </div>
