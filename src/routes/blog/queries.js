@@ -22,48 +22,71 @@ const PARTIAL_POST = gql`
   }
 `;
 
-export const BLOG = gql`
+const FULL_POSTS = gql`
   ${META}
+  ${FULL_POST}
   ${PARTIAL_POST}
 
-  query blog {
-    allBlog_banners {
-      edges {
-        node {
-          title
-          intro
+  fragment FullPosts on PostConnectionConnection {
+    edges {
+      node {
+        _meta {
+          ...Meta
         }
-      }
-    }
-    allPosts {
-      edges {
-        node {
-          _meta {
-            ...Meta
-          }
-          ...PartialPost
-        }
+        ...PartialPost
+        ...FullPost
       }
     }
   }
 `;
 
-export const POST = gql`
+const PARTIAL_POSTS = gql`
   ${META}
   ${PARTIAL_POST}
-  ${FULL_POST}
 
-  query posts($slug: String!) {
-    allPosts(uid: $slug) {
-      edges {
-        node {
-          _meta {
-            ...Meta
-          }
-          ...PartialPost
-          ...FullPost
+  fragment PartialPosts on PostConnectionConnection {
+    edges {
+      node {
+        _meta {
+          ...Meta
         }
+        ...PartialPost
       }
+    }
+  }
+`;
+
+const BANNERS = gql`
+  fragment Banners on Blog_bannerConnectionConnection {
+    edges {
+      node {
+        title
+        intro
+      }
+    }
+  }
+`;
+
+export const BLOG = gql`
+  ${PARTIAL_POSTS}
+  ${BANNERS}
+
+  query blog($tags: [String!]) {
+    allBlog_banners {
+      ...Banners
+    }
+    allPosts(tags_in: $tags) {
+      ...PartialPosts
+    }
+  }
+`;
+
+export const POST_BY_SLUG = gql`
+  ${FULL_POSTS}
+
+  query postBySlug($slug: String!) {
+    allPosts(uid: $slug) {
+      ...FullPosts
     }
   }
 `;

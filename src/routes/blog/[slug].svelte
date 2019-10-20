@@ -1,13 +1,13 @@
 <script context="module">
   import gql from "graphql-tag";
   import { client } from "../../apollo";
-  import { POST } from "./queries";
+  import { POST_BY_SLUG } from "./queries";
 
   export async function preload({ params }) {
     return {
       slug: params.slug,
       cache: await client.query({
-        query: POST,
+        query: POST_BY_SLUG,
         variables: { slug: params.slug }
       })
     };
@@ -21,10 +21,10 @@
   export let slug;
 
   const apolloClient = getClient();
-  restore(apolloClient, POST, cache.data);
+  restore(apolloClient, POST_BY_SLUG, cache.data);
 
   const postQuery = query(apolloClient, {
-    query: POST,
+    query: POST_BY_SLUG,
     variables: { slug }
   });
 </script>

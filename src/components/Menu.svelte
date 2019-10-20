@@ -25,6 +25,7 @@
   }
 
   ul > li > a {
+    color: var(--grey);
     text-decoration: none;
     font-size: 16px;
     margin-left: 10px;

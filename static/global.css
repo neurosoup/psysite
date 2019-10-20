@@ -3,6 +3,11 @@
 
 /* See https://www.modularscale.com/?1,1140,16&em&1.3 for font scale */
 
+:root {
+  --blue: #2c396b;
+  --grey: #9b9b9b;
+}
+
 body {
   font-family: 'Work Sans', sans-serif;
   font-weight: 300;
@@ -19,7 +24,6 @@ body {
 }
 
 h1 {
-  font-family: 'EB Garamond', serif;
   font-weight: 400;
   font-size: 2.197em;
   line-height: calc(18px + 1.8vw); /* Responsive Vertical Rhythm */
@@ -42,7 +46,7 @@ h5 {
   font-size: 1.243em;
 }
 h6 {
-  font-size: 1.161em;
+  font-size: 0.769em;
 }
 
 h4,
@@ -60,16 +64,31 @@ h6 {
   margin: calc(12px + 1.05vw) 0; /* Responsive margins */
 }
 
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: 'EB Garamond', serif;
+  font-weight: 400;
+}
+
+h6 {
+  font-family: 'Work Sans', sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+a {
+  cursor: pointer;
+}
+
+a,
+h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  font-family: 'EB Garamond', serif;
-  font-weight: 400;
-}
-
-a {
-  color: inherit;
-  cursor: pointer;
+  color: var(--blue);
 }

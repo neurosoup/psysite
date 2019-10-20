@@ -10,7 +10,7 @@
   }
 
   ul > li > a {
-    color: #9b9b9b;
+    color: var(--grey);
     text-transform: uppercase;
     text-decoration: none;
     font-size: 12px;
