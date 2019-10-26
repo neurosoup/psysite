@@ -50,12 +50,11 @@
 
 <style>
   .outer {
-    margin: 10px 30px 0 30px;
+    margin: 10px 20px 0 20px;
   }
 
   /* https://w3bits.com/tools/masonry-generator/ */
   .masonry-wrapper {
-    padding: 1.5em;
     width: 100%;
     margin-right: auto;
     margin-left: auto;
