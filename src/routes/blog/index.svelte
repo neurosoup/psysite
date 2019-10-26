@@ -44,6 +44,10 @@
     posts.refetch({ first, after });
   };
 
+  const resetTags = () => {
+    tags = [];
+  };
+
   const pushNewPosts = newPosts => {
     allPosts = [...allPosts, ...newPosts];
   };
@@ -66,8 +70,13 @@
 </style>
 
 <div class="sub-header">
+
   {#if tags.length}
-    <Banner title={`Catégorie : ${tags[0]}`} intro="" />
+    <Banner
+      closeable
+      title={`Catégorie : ${tags[0]}`}
+      intro=""
+      on:click={resetTags} />
   {:else}
     {#await $banners then result}
       <Banner
@@ -75,5 +84,6 @@
         intro={result.data.allBlog_banners.edges[0].node.intro[0].text} />
     {/await}
   {/if}
+
 </div>
 <PostList posts={allPosts} bind:tags on:bottom={loadMore} />

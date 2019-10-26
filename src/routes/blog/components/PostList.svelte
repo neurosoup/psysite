@@ -55,6 +55,7 @@
 
   /* https://w3bits.com/tools/masonry-generator/ */
   .masonry-wrapper {
+    padding-top: 1.5em;
     width: 100%;
     margin-right: auto;
     margin-left: auto;
