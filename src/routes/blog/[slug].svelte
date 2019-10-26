@@ -37,7 +37,7 @@
   {#await $postQuery}
     <h1>...</h1>
   {:then result}
-    <h1>{result.data.allPosts.edges[0].node.title[0].text}</h1>
+    <h1>{result.data.post.title[0].text}</h1>
   {:catch error}
     <h1>{error}</h1>
   {/await}

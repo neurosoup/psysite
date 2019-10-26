@@ -1,11 +1,6 @@
 <script>
-  // import { query, getClient } from "svelte-apollo";
-  // import { BLOG } from "../queries";
-  // import LoadingDots from "../../../components/LoadingDots.svelte";
   import TextDivider from "../../../components/TextDivider.svelte";
 
-  // const client = getClient();
-  // const blog = query(client, { query: BLOG });
   export let title = "";
   export let intro = "";
 </script>
@@ -32,7 +27,6 @@
   }
 </style>
 
-<!-- {#await $blog then result} -->
 <div class="header">
   <h1>{title}</h1>
   {#if intro.length}
@@ -42,4 +36,3 @@
     </div>
   {/if}
 </div>
-<!-- {/await} -->

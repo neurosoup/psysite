@@ -8,12 +8,6 @@ const META = gql`
   }
 `;
 
-const FULL_POST = gql`
-  fragment FullPost on Post {
-    content
-  }
-`;
-
 const PARTIAL_POST = gql`
   fragment PartialPost on Post {
     featured_image
@@ -22,21 +16,12 @@ const PARTIAL_POST = gql`
   }
 `;
 
-const FULL_POSTS = gql`
-  ${META}
-  ${FULL_POST}
+const FULL_POST = gql`
   ${PARTIAL_POST}
 
-  fragment FullPosts on PostConnectionConnection {
-    edges {
-      node {
-        _meta {
-          ...Meta
-        }
-        ...PartialPost
-        ...FullPost
-      }
-    }
+  fragment FullPost on Post {
+    ...PartialPost
+    content
   }
 `;
 
@@ -56,37 +41,44 @@ const PARTIAL_POSTS = gql`
   }
 `;
 
-const BANNERS = gql`
-  fragment Banners on Blog_bannerConnectionConnection {
-    edges {
-      node {
-        title
-        intro
-      }
-    }
-  }
-`;
-
-export const BLOG = gql`
+export const POSTS = gql`
   ${PARTIAL_POSTS}
-  ${BANNERS}
 
-  query blog($tags: [String!]) {
-    allBlog_banners {
-      ...Banners
-    }
-    allPosts(tags_in: $tags) {
+  query posts($tags: [String!], $first: Int, $after: String) {
+    allPosts(
+      sortBy: meta_lastPublicationDate_DESC
+      tags_in: $tags
+      first: $first
+      after: $after
+    ) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
       ...PartialPosts
     }
   }
 `;
 
+export const BANNERS = gql`
+  query banners {
+    allBlog_banners {
+      edges {
+        node {
+          title
+          intro
+        }
+      }
+    }
+  }
+`;
+
 export const POST_BY_SLUG = gql`
-  ${FULL_POSTS}
+  ${FULL_POST}
 
   query postBySlug($slug: String!) {
-    allPosts(uid: $slug) {
-      ...FullPosts
+    post(uid: $slug, lang: "fr-fr") {
+      ...FullPost
     }
   }
 `;
