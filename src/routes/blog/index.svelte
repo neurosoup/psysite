@@ -22,13 +22,9 @@
   import Banner from "./components/Banner.svelte";
   import PostList from "./components/PostList.svelte";
 
-  let loadMoreThreshold = 5;
-  let scrollY;
-  let innerHeight;
-
   let allPosts = [];
   let tags = [];
-  let first = 6;
+  let first = 3;
   let after;
 
   const apolloClient = getClient();
@@ -45,15 +41,12 @@
   const banners = query(apolloClient, { query: BANNERS });
 
   const loadMore = () => {
-    console.log("LOAD MORE!");
-    posts.refetch({ tags, first, after });
+    posts.refetch({ first, after });
   };
 
   const pushNewPosts = newPosts => {
     allPosts = [...allPosts, ...newPosts];
   };
-
-  $: posts.refetch({ tags, first });
 
   $: $posts.then(result => {
     if (!result.loading) {
