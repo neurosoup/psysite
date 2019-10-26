@@ -28,7 +28,7 @@
 
   let allPosts = [];
   let tags = [];
-  let first = 2;
+  let first = 6;
   let after;
 
   const apolloClient = getClient();
