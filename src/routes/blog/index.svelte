@@ -48,7 +48,7 @@
     allPosts = [...allPosts, ...newPosts];
   };
 
-  $: $posts.then(result => {
+  $: Promise.resolve($posts).then(result => {
     if (!result.loading) {
       if (result.data.allPosts.pageInfo.hasNextPage) {
         after = result.data.allPosts.pageInfo.endCursor;
