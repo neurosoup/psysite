@@ -3,6 +3,7 @@
   import { POSTS, BANNERS } from "./queries";
 
   export async function preload() {
+    console.log("------------->preload !!!!");
     return {
       bannersCache: await client.query({
         query: BANNERS
@@ -15,7 +16,7 @@
 </script>
 
 <script>
-  import { onDestroy } from "svelte";
+  import { onDestroy, onMount } from "svelte";
   import { restore, query, getClient, subscribe } from "svelte-apollo";
   import moment from "moment";
   import LoadingDots from "../../components/LoadingDots.svelte";
@@ -30,9 +31,10 @@
   const apolloClient = getClient();
   export let postsCache;
   export let bannersCache;
+
+  postsCache.data;
   restore(apolloClient, POSTS, postsCache.data);
   restore(apolloClient, BANNERS, bannersCache.data);
-
   const posts = query(apolloClient, {
     query: POSTS,
     variables: { first }
@@ -49,7 +51,12 @@
   };
 
   const pushNewPosts = newPosts => {
-    allPosts = [...allPosts, ...newPosts];
+    const freshPosts = newPosts.filter(
+      newPost =>
+        !allPosts.some(post => post.node._meta.uid === newPost.node._meta.uid)
+    );
+    console.log("------------->freshPosts", freshPosts);
+    allPosts = [...allPosts, ...freshPosts];
   };
 
   $: Promise.resolve($posts).then(result => {

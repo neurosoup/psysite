@@ -19,6 +19,7 @@
     const distance = bottom - innerHeight;
     if (distance < bottomThreshold && watchBottom) {
       watchBottom = false;
+      console.log("------------->bottom", watchBottom);
       dispatch("bottom");
     }
     watchBottom = distance >= bottomThreshold;
