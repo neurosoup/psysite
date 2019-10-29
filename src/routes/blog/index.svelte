@@ -3,7 +3,6 @@
   import { POSTS, BANNERS } from "./queries";
 
   export async function preload() {
-    console.log("------------->preload !!!!");
     return {
       bannersCache: await client.query({
         query: BANNERS
@@ -55,7 +54,6 @@
       newPost =>
         !allPosts.some(post => post.node._meta.uid === newPost.node._meta.uid)
     );
-    console.log("------------->freshPosts", freshPosts);
     allPosts = [...allPosts, ...freshPosts];
   };
 
