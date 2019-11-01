@@ -30,23 +30,21 @@
     text-align: justify;
   }
 
-  .button.small {
-    padding: 0 10px 0 10px;
-    font-size: 25px;
-    vertical-align: text-bottom;
+  .breadcrumb {
+    cursor: pointer;
+  }
+
+  .breadcrumb:hover {
+    text-decoration: underline;
+    text-underline-position: under;
   }
 </style>
 
 <div class="header">
   <h1>
-    {#if closeable}
-      <div
-        class="small button accent1 hover-accent6 button-solid"
-        on:click={() => dispatch('click')}>
-        <span class="icon-x" />
-      </div>
-    {/if}
-    {title}
+    <span class:breadcrumb={closeable} on:click={() => dispatch('click')}>
+      {title}
+    </span>
   </h1>
   {#if intro.length}
     <TextDivider class="divider" width="30%" fill="#cac8c8" />
