@@ -11,7 +11,7 @@
   let scrollY;
   let offsetHeight;
   let innerHeight;
-  let bottomThreshold = 200;
+  let bottomThreshold = 400;
   let watchBottom = true;
 
   $: if (viewport) {
@@ -19,7 +19,6 @@
     const distance = bottom - innerHeight;
     if (distance < bottomThreshold && watchBottom) {
       watchBottom = false;
-      console.log("------------->bottom", watchBottom);
       dispatch("bottom");
     }
     watchBottom = distance >= bottomThreshold;
