@@ -1,22 +1,30 @@
 <script context="module">
-  import { client } from "../../apollo";
+  import { initClient } from "../../apollo";
   import { POSTS, BANNERS } from "./queries";
 
+  const pageSize = 3;
+
   export async function preload() {
+    const client = initClient();
+    const posts = await client.query({
+      query: POSTS,
+      variables: { first: pageSize }
+    });
     return {
-      bannersCache: await client.query({
-        query: BANNERS
-      }),
-      postsCache: await client.query({
-        query: POSTS
-      })
+      cache: {
+        banners: await client.query({
+          query: BANNERS
+        }),
+        posts: posts,
+        postsCursor: posts.data.allPosts.pageInfo.endCursor
+      }
     };
   }
 </script>
 
 <script>
   import { onDestroy, onMount } from "svelte";
-  import { restore, query, getClient, subscribe } from "svelte-apollo";
+  import { restore, query, setClient, subscribe } from "svelte-apollo";
   import moment from "moment";
   import LoadingDots from "../../components/LoadingDots.svelte";
   import Banner from "./components/Banner.svelte";
@@ -24,30 +32,12 @@
 
   let allPosts = [];
   let tags = [];
-  let first = 3;
+  let first = pageSize;
   let after;
+  let loadingMore = true;
+  let hasNextPage = true;
 
-  const apolloClient = getClient();
-  export let postsCache;
-  export let bannersCache;
-
-  postsCache.data;
-  restore(apolloClient, POSTS, postsCache.data);
-  restore(apolloClient, BANNERS, bannersCache.data);
-  const posts = query(apolloClient, {
-    query: POSTS,
-    variables: { first }
-  });
-
-  const banners = query(apolloClient, { query: BANNERS });
-
-  const loadMore = () => {
-    posts.refetch({ first, after });
-  };
-
-  const resetTags = () => {
-    tags = [];
-  };
+  export let cache;
 
   const pushNewPosts = newPosts => {
     const freshPosts = newPosts.filter(
@@ -57,12 +47,40 @@
     allPosts = [...allPosts, ...freshPosts];
   };
 
+  const client = initClient();
+  restore(client, POSTS, cache.posts.data);
+  restore(client, BANNERS, cache.banners.data);
+
+  if (cache) {
+    pushNewPosts(cache.posts.data.allPosts.edges);
+    after = cache.postsCursor;
+  }
+
+  const posts = query(client, {
+    query: POSTS,
+    variables: { first }
+  });
+  const banners = query(client, { query: BANNERS });
+
+  const loadMore = () => {
+    if (hasNextPage) {
+      loadingMore = true;
+      posts.refetch({ first, after });
+    }
+  };
+
+  const resetTags = () => {
+    tags = [];
+  };
+
   $: Promise.resolve($posts).then(result => {
     if (!result.loading) {
-      if (result.data.allPosts.pageInfo.hasNextPage) {
+      hasNextPage = result.data.allPosts.pageInfo.hasNextPage;
+      if (hasNextPage) {
         after = result.data.allPosts.pageInfo.endCursor;
       }
       pushNewPosts(result.data.allPosts.edges);
+      loadingMore = false;
     }
   });
 </script>
@@ -71,6 +89,12 @@
   .sub-header {
     border-bottom: 1px solid #ececec;
     padding-bottom: 10px;
+  }
+
+  .center {
+    width: 100%;
+    text-align: center;
+    color: var(--blue);
   }
 </style>
 
@@ -92,3 +116,8 @@
 
 </div>
 <PostList posts={allPosts} bind:tags on:bottom={loadMore} />
+{#if loadingMore}
+  <h1 class="center">
+    <LoadingDots />
+  </h1>
+{/if}
