@@ -1,10 +1,5 @@
 <script>
   import Navigation from "../../components/Navigation.svelte";
-
-  import { client } from "../../apollo";
-  import { setClient } from "svelte-apollo";
-  setClient(client);
-
   export let segment;
 </script>
 

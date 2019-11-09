@@ -1,9 +1,10 @@
 <script context="module">
   import gql from "graphql-tag";
-  import { client } from "../../apollo";
+  import { initClient } from "../../apollo";
   import { POST_BY_SLUG } from "./queries";
 
   export async function preload({ params }) {
+    const client = initClient();
     return {
       slug: params.slug,
       cache: await client.query({
@@ -15,15 +16,15 @@
 </script>
 
 <script>
-  import { restore, query, getClient } from "svelte-apollo";
+  import { restore, query, setClient } from "svelte-apollo";
 
   export let cache;
   export let slug;
 
-  const apolloClient = getClient();
-  restore(apolloClient, POST_BY_SLUG, cache.data);
+  const client = initClient();
+  restore(client, POST_BY_SLUG, cache.data);
 
-  const postQuery = query(apolloClient, {
+  const postQuery = query(client, {
     query: POST_BY_SLUG,
     variables: { slug }
   });

@@ -1,66 +1,86 @@
 <script context="module">
-  import { client } from "../../apollo";
+  import { initClient } from "../../apollo";
   import { POSTS, BANNERS } from "./queries";
 
+  const pageSize = 3;
+
   export async function preload() {
+    const client = initClient();
+    const posts = await client.query({
+      query: POSTS,
+      variables: { first: pageSize }
+    });
     return {
-      bannersCache: await client.query({
-        query: BANNERS
-      }),
-      postsCache: await client.query({
-        query: POSTS
-      })
+      cache: {
+        banners: await client.query({
+          query: BANNERS
+        }),
+        posts: posts,
+        postsCursor: posts.data.allPosts.pageInfo.endCursor
+      }
     };
   }
 </script>
 
 <script>
-  import { onDestroy } from "svelte";
-  import { restore, query, getClient, subscribe } from "svelte-apollo";
+  import { onDestroy, onMount } from "svelte";
+  import { restore, query, setClient, subscribe } from "svelte-apollo";
   import moment from "moment";
   import LoadingDots from "../../components/LoadingDots.svelte";
   import Banner from "./components/Banner.svelte";
   import PostList from "./components/PostList.svelte";
 
-  let loadMoreThreshold = 5;
-  let scrollY;
-  let innerHeight;
-
   let allPosts = [];
   let tags = [];
-  let first = 6;
+  let first = pageSize;
   let after;
+  let loadingMore = true;
+  let hasNextPage = true;
 
-  const apolloClient = getClient();
-  export let postsCache;
-  export let bannersCache;
-  restore(apolloClient, POSTS, postsCache.data);
-  restore(apolloClient, BANNERS, bannersCache.data);
+  export let cache;
 
-  const posts = query(apolloClient, {
+  const pushNewPosts = newPosts => {
+    const freshPosts = newPosts.filter(
+      newPost =>
+        !allPosts.some(post => post.node._meta.uid === newPost.node._meta.uid)
+    );
+    allPosts = [...allPosts, ...freshPosts];
+  };
+
+  const client = initClient();
+  restore(client, POSTS, cache.posts.data);
+  restore(client, BANNERS, cache.banners.data);
+
+  if (cache) {
+    pushNewPosts(cache.posts.data.allPosts.edges);
+    after = cache.postsCursor;
+  }
+
+  const posts = query(client, {
     query: POSTS,
     variables: { first }
   });
-
-  const banners = query(apolloClient, { query: BANNERS });
+  const banners = query(client, { query: BANNERS });
 
   const loadMore = () => {
-    console.log("LOAD MORE!");
-    posts.refetch({ tags, first, after });
+    if (hasNextPage) {
+      loadingMore = true;
+      posts.refetch({ first, after });
+    }
   };
 
-  const pushNewPosts = newPosts => {
-    allPosts = [...allPosts, ...newPosts];
+  const resetTags = () => {
+    tags = [];
   };
 
-  $: posts.refetch({ tags, first });
-
-  $: $posts.then(result => {
+  $: Promise.resolve($posts).then(result => {
     if (!result.loading) {
-      if (result.data.allPosts.pageInfo.hasNextPage) {
+      hasNextPage = result.data.allPosts.pageInfo.hasNextPage;
+      if (hasNextPage) {
         after = result.data.allPosts.pageInfo.endCursor;
       }
       pushNewPosts(result.data.allPosts.edges);
+      loadingMore = false;
     }
   });
 </script>
@@ -70,11 +90,22 @@
     border-bottom: 1px solid #ececec;
     padding-bottom: 10px;
   }
+
+  .center {
+    width: 100%;
+    text-align: center;
+    color: var(--blue);
+  }
 </style>
 
 <div class="sub-header">
+
   {#if tags.length}
-    <Banner title={`Catégorie : ${tags[0]}`} intro="" />
+    <Banner
+      closeable
+      title={`Catégorie : ${tags[0]}`}
+      intro=""
+      on:click={resetTags} />
   {:else}
     {#await $banners then result}
       <Banner
@@ -82,5 +113,11 @@
         intro={result.data.allBlog_banners.edges[0].node.intro[0].text} />
     {/await}
   {/if}
+
 </div>
 <PostList posts={allPosts} bind:tags on:bottom={loadMore} />
+{#if loadingMore}
+  <h1 class="center">
+    <LoadingDots />
+  </h1>
+{/if}
