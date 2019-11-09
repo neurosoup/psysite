@@ -1,8 +1,12 @@
 <script>
+  import { createEventDispatcher } from "svelte";
   import TextDivider from "../../../components/TextDivider.svelte";
+
+  const dispatch = createEventDispatcher();
 
   export let title = "";
   export let intro = "";
+  export let closeable;
 </script>
 
 <style>
@@ -25,10 +29,23 @@
     margin-top: 30px;
     text-align: justify;
   }
+
+  .breadcrumb {
+    cursor: pointer;
+  }
+
+  .breadcrumb:hover {
+    text-decoration: underline;
+    text-underline-position: under;
+  }
 </style>
 
 <div class="header">
-  <h1>{title}</h1>
+  <h1>
+    <span class:breadcrumb={closeable} on:click={() => dispatch('click')}>
+      {title}
+    </span>
+  </h1>
   {#if intro.length}
     <TextDivider class="divider" width="30%" fill="#cac8c8" />
     <div class="justified">

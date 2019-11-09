@@ -1,8 +1,6 @@
 <script>
   import { createEventDispatcher } from "svelte";
-  import moment from "moment";
-
-  moment.locale("fr");
+  import PostItem from "./PostItem.svelte";
 
   const dispatch = createEventDispatcher();
 
@@ -13,8 +11,7 @@
   let scrollY;
   let offsetHeight;
   let innerHeight;
-
-  let bottomThreshold = 200;
+  let bottomThreshold = 400;
   let watchBottom = true;
 
   $: if (viewport) {
@@ -24,105 +21,87 @@
       watchBottom = false;
       dispatch("bottom");
     }
-
     watchBottom = distance >= bottomThreshold;
+  }
+
+  function resizeMasonryItem(item) {
+    const grid = document.getElementsByClassName("masonry")[0];
+    if (grid) {
+      const rowGap = parseInt(
+        window.getComputedStyle(grid).getPropertyValue("grid-row-gap")
+      );
+      const rowHeight = parseInt(
+        window.getComputedStyle(grid).getPropertyValue("grid-auto-rows")
+      );
+      const content = item.querySelector(".masonry-content");
+      const rowSpan = Math.ceil(
+        (content.getBoundingClientRect().height + rowGap) / (rowHeight + rowGap)
+      );
+      item.style.gridRowEnd = "span " + rowSpan;
+    }
+  }
+
+  function resizeAllMasonryItems() {
+    document.querySelectorAll(".masonry-item").forEach(item => {
+      resizeMasonryItem(item);
+    });
   }
 </script>
 
 <style>
-  a {
-    text-decoration: none;
-  }
-
-  img {
-    vertical-align: middle;
-    max-width: 100%;
-  }
-
   .outer {
-    margin: 10px 30px 0 30px;
+    margin: 10px 20px 0 20px;
   }
 
-  .masonry-layout {
-    column-count: 1;
-    column-gap: 0;
-  }
-
-  .masonry-layout-panel {
-    break-inside: avoid;
-    page-break-inside: avoid;
-  }
-
-  .masonry-layout-panel-content {
-    padding: 10px;
-  }
-
-  @media (min-width: 768px) {
-    .outer {
-      margin: 10px 60px 0 60px;
-    }
-    .masonry-layout {
-      column-count: 2;
-    }
-    .masonry-layout-panel {
-      margin-inline-start: 10px;
-      margin-inline-end: 10px;
-    }
-  }
-
-  @media (min-width: 1200px) {
-    .masonry-layout {
-      column-count: 3;
-    }
-  }
-
-  @media (min-width: 2560px) {
-    .outer {
-      margin: 10px 260px 0 260px;
-    }
-  }
-
-  .masonry-img {
-    object-fit: cover;
+  /* https://w3bits.com/tools/masonry-generator/ */
+  .masonry-wrapper {
+    padding-top: 1.5em;
     width: 100%;
-    height: 100%;
+    margin-right: auto;
+    margin-left: auto;
   }
 
-  .ago {
-    color: #9e9e9e;
+  .masonry {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(100px, 1fr));
+    grid-gap: 10px;
+    grid-auto-rows: 0;
   }
 
-  .tag {
-    cursor: pointer;
-    text-transform: lowercase;
+  @media only screen and (max-width: 1023px) and (min-width: 768px) {
+    .masonry {
+      grid-template-columns: repeat(2, minmax(100px, 1fr));
+    }
+  }
+  @media only screen and (min-width: 1024px) {
+    .masonry {
+      grid-template-columns: repeat(3, minmax(100px, 1fr));
+    }
+  }
+
+  .masonry-item,
+  .masonry-content {
+    overflow: hidden;
   }
 </style>
 
-<svelte:window bind:scrollY bind:innerHeight />
+<svelte:window
+  bind:scrollY
+  bind:innerHeight
+  on:resize={resizeAllMasonryItems} />
 
 <div class="outer" bind:this={viewport} bind:offsetHeight>
-  <div class="masonry-layout">
-    {#each posts as post}
-      <div class="masonry-layout-panel">
-        <div class="masonry-layout-panel-content">
-          <a rel="prefetch" href={`blog/${post.node._meta.uid}`}>
-            <img
-              class="masonry-img"
-              src={post.node.featured_image.url}
-              alt={post.node.featured_image.alt} />
-            <h2>{post.node.title[0].text}</h2>
-            <h6 class="ago">
-              {moment(post.node._meta.lastPublicationDate).fromNow()}
-            </h6>
-          </a>
-          <div class="intro">{post.node.intro[0].text}</div>
-          <h6 class="tag">
-            {#each post.node._meta.tags as tag}
-              <span on:click={_ => (tags = [tag])}>{tag}&nbsp;</span>
-            {/each}
-          </h6>
+  <div class="masonry-wrapper">
+    <div class="masonry">
+      {#each posts.filter(post => !tags.length || post.node._meta.tags.some(
+            tag => tags.includes(tag)
+          )) as post}
+        <div class="masonry-item">
+          <div class="masonry-content">
+            <PostItem {post} bind:tags on:imageLoaded={resizeAllMasonryItems} />
+          </div>
         </div>
-      </div>
-    {/each}
+      {/each}
+    </div>
   </div>
 </div>
