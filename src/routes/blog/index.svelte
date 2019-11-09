@@ -45,7 +45,6 @@
   const banners = query(apolloClient, { query: BANNERS });
 
   const loadMore = () => {
-    console.log("LOAD MORE!");
     posts.refetch({ tags, first, after });
   };
 
