@@ -1,6 +1,6 @@
 <script>
   import { createEventDispatcher } from "svelte";
-  import PostItem from "./PostItem.svelte";
+  import PostListItem from "./PostListItem.svelte";
 
   const dispatch = createEventDispatcher();
 
@@ -98,7 +98,10 @@
           )) as post}
         <div class="masonry-item">
           <div class="masonry-content">
-            <PostItem {post} bind:tags on:imageLoaded={resizeAllMasonryItems} />
+            <PostListItem
+              {post}
+              bind:tags
+              on:imageLoaded={resizeAllMasonryItems} />
           </div>
         </div>
       {/each}

@@ -35,11 +35,7 @@
 </style>
 
 <div class="content">
-  {#await $postQuery}
-    <h1>...</h1>
-  {:then result}
+  {#await $postQuery then result}
     <h1>{result.data.post.title[0].text}</h1>
-  {:catch error}
-    <h1>{error}</h1>
   {/await}
 </div>
