@@ -5,7 +5,7 @@
   const dispatch = createEventDispatcher();
 
   export let posts;
-  export let tags = [];
+  export let selectedTags = [];
 
   let viewport;
   let scrollY;
@@ -93,14 +93,14 @@
 <div class="outer" bind:this={viewport} bind:offsetHeight>
   <div class="masonry-wrapper">
     <div class="masonry">
-      {#each posts.filter(post => !tags.length || post.node._meta.tags.some(
-            tag => tags.includes(tag)
+      {#each posts.filter(post => !selectedTags.length || post.node._meta.tags.some(
+            tag => selectedTags.includes(tag)
           )) as post}
         <div class="masonry-item">
           <div class="masonry-content">
             <PostListItem
               {post}
-              bind:tags
+              bind:selectedTags
               on:imageLoaded={resizeAllMasonryItems} />
           </div>
         </div>

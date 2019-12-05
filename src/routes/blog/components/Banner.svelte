@@ -10,19 +10,11 @@
 </script>
 
 <style>
-  h1 {
-    white-space: nowrap;
-  }
   .header {
     text-align: center;
     max-width: 75%;
     margin-left: auto;
     margin-right: auto;
-  }
-
-  .header h1 {
-    margin-bottom: 30px;
-    margin-top: 90px;
   }
 
   .justified {
@@ -41,11 +33,9 @@
 </style>
 
 <div class="header">
-  <h1>
-    <span class:breadcrumb={closeable} on:click={() => dispatch('click')}>
-      {title}
-    </span>
-  </h1>
+  <h2 class:breadcrumb={closeable} on:click={() => dispatch('click')}>
+    {title}
+  </h2>
   {#if intro.length}
     <TextDivider class="divider" width="30%" fill="#cac8c8" />
     <div class="justified">

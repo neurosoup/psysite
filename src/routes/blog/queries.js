@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 const META = gql`
   fragment Meta on Meta {
@@ -17,9 +17,13 @@ const PARTIAL_POST = gql`
 `;
 
 const FULL_POST = gql`
+  ${META}
   ${PARTIAL_POST}
 
   fragment FullPost on Post {
+    _meta {
+      ...Meta
+    }
     ...PartialPost
     content
   }

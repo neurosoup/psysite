@@ -1,12 +1,14 @@
 <script>
   import { createEventDispatcher } from "svelte";
   import { fade } from "svelte/transition";
-  import moment from "moment";
 
+  import TagLink from "./TagLink.svelte";
+
+  import moment from "moment";
   moment.locale("fr");
 
   export let post;
-  export let tags;
+  export let selectedTags;
 
   const dispatch = createEventDispatcher();
   const imageLoaded = () => {
@@ -17,6 +19,11 @@
 <style>
   a {
     text-decoration: none;
+    cursor: pointer;
+  }
+
+  h2 {
+    color: black;
   }
 
   img {
@@ -29,9 +36,8 @@
     color: #9e9e9e;
   }
 
-  .tag {
-    cursor: pointer;
-    text-transform: lowercase;
+  .read-more {
+    margin: 10px 0 20px 0;
   }
 </style>
 
@@ -45,9 +51,10 @@
   </a>
   <h6 class="ago">{moment(post.node._meta.lastPublicationDate).fromNow()}</h6>
   <div class="intro">{post.node.intro[0].text}</div>
-  <h6 class="tag">
-    {#each post.node._meta.tags as tag}
-      <span on:click={_ => (tags = [tag])}>{tag}&nbsp;</span>
-    {/each}
-  </h6>
+  <!-- <h6>
+    <TagLink tags={post.node._meta.tags} bind:selectedTags />
+  </h6> -->
+  <div class="read-more">
+    <a rel="prefetch" href={`blog/${post.node._meta.uid}`}>Lire la suite</a>
+  </div>
 </div>

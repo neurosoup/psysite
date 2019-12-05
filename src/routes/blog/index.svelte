@@ -115,7 +115,7 @@
   {/if}
 
 </div>
-<PostList posts={allPosts} bind:tags on:bottom={loadMore} />
+<PostList posts={allPosts} bind:selectedTags={tags} on:bottom={loadMore} />
 {#if loadingMore}
   <h1 class="center">
     <LoadingDots />

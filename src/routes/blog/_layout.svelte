@@ -4,14 +4,12 @@
 </script>
 
 <style>
-  .main {
-    margin-top: 75px;
-  }
+
 </style>
 
 <header>
   <Navigation {segment} />
 </header>
-<main class="main">
+<main>
   <slot />
 </main>

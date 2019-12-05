@@ -1,5 +1,5 @@
 <script>
-  import Menu from "./Menu.svelte";
+  import FullMenu from "./FullMenu.svelte";
   import Burger from "./Burger.svelte";
 
   export let segment;
@@ -15,7 +15,7 @@
   }
 
   /* Iphone 6/7/8/Plus */
-  @media (max-width: 414px) {
+  @media (max-width: 768px) {
     .full {
       display: none;
     }
@@ -27,7 +27,7 @@
 </style>
 
 <div class="full">
-  <Menu {segment} />
+  <FullMenu {segment} />
 </div>
 <div class="mobile">
   <Burger {segment} />

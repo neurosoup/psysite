@@ -1,5 +1,5 @@
 <script>
-  import Menu from "./Menu.svelte";
+  import CompactMenu from "./CompactMenu.svelte";
   import { MenuIcon, XIcon } from "svelte-feather-icons";
 
   export let segment;
@@ -11,14 +11,12 @@
 </script>
 
 <style>
-  h1 {
+  .title {
     margin: 0;
     text-transform: uppercase;
   }
 
   .container {
-    position: absolute;
-    top: 0;
     width: 100%;
     background-color: #fff;
     display: flex;
@@ -45,10 +43,11 @@
 
 <div class="container">
   {#if opened}
-    <Menu />
+    <CompactMenu />
   {/if}
   <div class="menu-header">
-    <h1>Anne-Angélique Zémour</h1>
+    <h2 class="title">Anne-Angélique Zémour</h2>
+
     <div class="burger" on:click={burgerClick}>
       {#if opened}
         <XIcon />
