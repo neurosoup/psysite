@@ -53,9 +53,9 @@
     <ul>
       <li>
         <a
-          class={segment === 'seances-individuelles' ? 'selected' : ''}
-          href="seances-individuelles">
-          Séances individuelles
+          class={segment === 'pages/seances-individuelles' ? 'selected' : ''}
+          href="pages/seances-individuelles">
+          Séances
         </a>
       </li>
       <li>
@@ -80,7 +80,7 @@
         <a
           class={segment === 'formations-en-ligne' ? 'selected' : ''}
           href="formations-en-ligne">
-          Formations en ligne
+          Formations
         </a>
       </li>
       <li>
