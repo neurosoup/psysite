@@ -53,7 +53,9 @@
         </a>
       </li>
       <li>
-        <a class={segment === 'a-propos' ? 'selected' : ''} href="a-propos">
+        <a
+          class={segment === 'anne-angelique' ? 'selected' : ''}
+          href="anne-angelique">
           Anne-Angélique
         </a>
       </li>
