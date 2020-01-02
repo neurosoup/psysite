@@ -90,19 +90,6 @@
   <title>Séances individuelles</title>
 </svelte:head>
 
-<!-- <div class="wrapper">
-  <div class="circle">
-    <h1>Bientôt</h1>
-    <h2>Séances individuelles</h2>
-    <p>
-      Cette page est actuellement en cours de construction.... Mais je vous
-      expliquerai prochainement comment fonctionnent les séances individuelles
-      en ligne que je propose, leur déroulement, leurs tarifs. Vous pouvez vous
-      rendre sur le blog et sur la page de présentation.
-    </p>
-  </div>
-</div> -->
-
 <section
   class="hero"
   class:loaded
@@ -121,11 +108,3 @@
     </div>
   </div>
 </section>
-
-<!-- <div id="bg">
-  <img
-    class:loaded
-    use:lazy={{ src: 'images/seances_individuelles.png' }}
-    src={`data:image/svg+xml;charset=utf-8,${xml}`}
-    alt="Séances individuelles" />
-</div> -->
