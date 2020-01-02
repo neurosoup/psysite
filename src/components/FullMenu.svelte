@@ -1,15 +1,16 @@
 <script>
-  export let segment;
+  import Logo from "./Logo.svelte";
+  import menuItems from "../menu.js";
+  export let page;
+
+  const sliceIndex = Math.floor(menuItems.length / 2);
+  const menus = [menuItems.slice(0, sliceIndex), menuItems.slice(sliceIndex)];
 </script>
 
 <style>
   .container {
     display: flex;
     flex-direction: column;
-  }
-
-  img {
-    max-height: 128px;
   }
 
   nav {
@@ -34,6 +35,11 @@
     margin-left: 10px;
   }
 
+  ul > li > a.selected {
+    color: var(--accent-color-1);
+    font-weight: 700;
+  }
+
   ul > li:last-child > a::after {
     content: "";
   }
@@ -50,52 +56,24 @@
 <div class="container">
 
   <nav>
-    <ul>
-      <li>
-        <a
-          class={segment === 'pages/seances-individuelles' ? 'selected' : ''}
-          href="pages/seances-individuelles">
-          Séances
+    {#each menus as menu, i}
+      <ul>
+        {#each menu as item}
+          <li>
+            <a
+              class:selected={page === item.page}
+              href={`${item.path}/${item.page}`}>
+              {item.title}
+            </a>
+          </li>
+        {/each}
+      </ul>
+      {#if i < menus.length - 1}
+        <a href=".">
+          <Logo />
         </a>
-      </li>
-      <li>
-        <a
-          rel="prefetch"
-          class={segment === 'blog' ? 'selected' : ''}
-          href="blog">
-          Blog
-        </a>
-      </li>
-      <li>
-        <a
-          class={segment === 'anne-angelique' ? 'selected' : ''}
-          href="anne-angelique">
-          Anne-Angélique
-        </a>
-      </li>
-    </ul>
-    <a class={segment === undefined ? 'selected' : ''} href=".">
-      <img alt="accueil" src="logo.png" />
-    </a>
-    <ul>
-      <li>
-        <a
-          class={segment === 'formations-en-ligne' ? 'selected' : ''}
-          href="formations-en-ligne">
-          Formations
-        </a>
-      </li>
-      <li>
-        <a class={segment === 'ressources' ? 'selected' : ''} href="ressources">
-          Ressources
-        </a>
-      </li>
-      <li>
-        <a class={segment === 'contact' ? 'selected' : ''} href="contact">
-          Contact
-        </a>
-      </li>
-    </ul>
+      {/if}
+    {/each}
   </nav>
 
 </div>

@@ -1,4 +1,5 @@
 <script>
+  import menu from "../menu.js";
   export let segment;
 </script>
 
@@ -37,47 +38,15 @@
 
   <nav>
     <ul>
-      <li>
-        <a
-          class={segment === 'seances-individuelles' ? 'selected' : ''}
-          href="seances-individuelles">
-          Séances individuelles
-        </a>
-      </li>
-      <li>
-        <a
-          rel="prefetch"
-          class={segment === 'blog' ? 'selected' : ''}
-          href="blog">
-          Blog
-        </a>
-      </li>
-      <li>
-        <a
-          class={segment === 'anne-angelique' ? 'selected' : ''}
-          href="anne-angelique">
-          Anne-Angélique
-        </a>
-      </li>
-    </ul>
-    <ul>
-      <li>
-        <a
-          class={segment === 'formations-en-ligne' ? 'selected' : ''}
-          href="formations-en-ligne">
-          Formations en ligne
-        </a>
-      </li>
-      <li>
-        <a class={segment === 'ressources' ? 'selected' : ''} href="ressources">
-          Ressources
-        </a>
-      </li>
-      <li>
-        <a class={segment === 'contact' ? 'selected' : ''} href="contact">
-          Contact
-        </a>
-      </li>
+      {#each menu as item}
+        <li>
+          <a
+            class:selected={segment === item.page}
+            href={`${item.path}/${item.page}`}>
+            {item.title}
+          </a>
+        </li>
+      {/each}
     </ul>
   </nav>
 

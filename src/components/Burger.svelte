@@ -1,4 +1,5 @@
 <script>
+  import Logo from "./Logo.svelte";
   import CompactMenu from "./CompactMenu.svelte";
   import { MenuIcon, XIcon } from "svelte-feather-icons";
 
@@ -11,11 +12,6 @@
 </script>
 
 <style>
-  .title {
-    margin: 0;
-    text-transform: uppercase;
-  }
-
   .container {
     width: 100%;
     background-color: #fff;
@@ -31,7 +27,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
+    padding: 0 20px 0 0;
     background-color: #fff;
     font-size: 2.5vw;
   }
@@ -46,8 +42,7 @@
     <CompactMenu />
   {/if}
   <div class="menu-header">
-    <h2 class="title">Anne-Angélique Zémour</h2>
-
+    <Logo />
     <div class="burger" on:click={burgerClick}>
       {#if opened}
         <XIcon />

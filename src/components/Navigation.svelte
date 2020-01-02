@@ -2,7 +2,7 @@
   import FullMenu from "./FullMenu.svelte";
   import Burger from "./Burger.svelte";
 
-  export let segment;
+  export let page;
 </script>
 
 <style>
@@ -27,10 +27,10 @@
 </style>
 
 <div class="full">
-  <FullMenu {segment} />
+  <FullMenu {page} />
 </div>
 <div class="mobile">
-  <Burger {segment} />
+  <Burger {page} />
 </div>
 
 <slot />
