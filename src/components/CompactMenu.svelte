@@ -1,6 +1,11 @@
 <script>
+  import { createEventDispatcher } from "svelte";
+
   import menu from "../menu.js";
   export let segment;
+
+  const dispatch = createEventDispatcher();
+  const itemClicked = () => dispatch("itemClicked");
 </script>
 
 <style>
@@ -42,6 +47,7 @@
         <li>
           <a
             class:selected={segment === item.page}
+            on:click={itemClicked}
             href={`${item.path}/${item.page}`}>
             {item.title}
           </a>

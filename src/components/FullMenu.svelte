@@ -33,11 +33,11 @@
     text-decoration: none;
     font-size: 16px;
     margin-left: 10px;
+    transition: all 3s ease-in;
   }
 
   ul > li > a.selected {
-    color: var(--accent-color-1);
-    font-weight: 700;
+    color: var(--accent-color-3);
   }
 
   ul > li:last-child > a::after {

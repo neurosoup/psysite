@@ -39,7 +39,7 @@
 
 <div class="container">
   {#if opened}
-    <CompactMenu />
+    <CompactMenu on:itemClicked={burgerClick} />
   {/if}
   <div class="menu-header">
     <Logo />

@@ -74,7 +74,7 @@
     width: 100%;
     height: 100vh;
     opacity: 0;
-    background-image: url("/images/seances_individuelles.png");
+    background-image: url("/images/seances.png");
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
@@ -90,10 +90,7 @@
   <title>Séances individuelles</title>
 </svelte:head>
 
-<section
-  class="hero"
-  class:loaded
-  use:lazy={{ src: 'images/seances_individuelles.png' }}>
+<section class="hero" class:loaded use:lazy={{ src: 'images/seances.png' }}>
   <div class="circle">
     <div class="hero-inner">
 
