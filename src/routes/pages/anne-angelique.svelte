@@ -1,4 +1,5 @@
 <script>
+  import Banner from "../../components/Banner.svelte";
   import LazyImage from "../../components/LazyImage.svelte";
 </script>
 
@@ -41,8 +42,14 @@
 <svelte:head>
   <title>Anne-Angélique Zémour</title>
 </svelte:head>
+<Banner
+  title="Qui suis-je"
+  intro="Sophrologue et psychanalyste depuis 2006, j’aide les femmes et les
+  hommes stressés et oppressés qui veulent vivre pleinement leur liberté d’être
+  et d’exister,à mieux connaître qui ils sont vraiment et à retrouver confiance
+  en eux pour se libérer de ce qui entrave leur développement personnel." />
 <div class="wrapper vertical">
-  <section>
+  <!-- <section>
     <h2>Qui suis-je</h2>
     <p>
       Sophrologue et psychanalyste depuis 2006, j’aide les femmes et les hommes
@@ -50,11 +57,11 @@
       d’exister,à mieux connaître qui ils sont vraiment et à retrouver confiance
       en eux pour se libérer de ce qui entrave leur développement personnel.
     </p>
-  </section>
+  </section> -->
   <section>
     <div class="horizontal">
       <div class="half">
-        <h2>De la découverte à la transformation</h2>
+        <h3>De la découverte à la transformation</h3>
         <p>
           Je suis
           <strong>Anne-Angélique Zémour</strong>

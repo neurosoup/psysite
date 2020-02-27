@@ -6,16 +6,20 @@
 
   export async function preload() {
     const client = initClient();
+
     const posts = await client.query({
       query: POSTS,
       variables: { first: pageSize }
     });
+
+    const banners = await client.query({
+      query: BANNERS
+    });
+
     return {
       cache: {
-        banners: await client.query({
-          query: BANNERS
-        }),
-        posts: posts,
+        banners,
+        posts,
         postsCursor: posts.data.allPosts.pageInfo.endCursor
       }
     };
@@ -27,7 +31,7 @@
   import { restore, query, setClient, subscribe } from "svelte-apollo";
   import moment from "moment";
   import LoadingDots from "../../components/LoadingDots.svelte";
-  import Banner from "./components/Banner.svelte";
+  import Banner from "../../components/Banner.svelte";
   import PostList from "./components/PostList.svelte";
 
   let allPosts = [];

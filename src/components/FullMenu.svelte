@@ -33,7 +33,7 @@
     text-decoration: none;
     font-size: 16px;
     margin-left: 10px;
-    transition: all 3s ease-in;
+    transition: all 1s ease-in;
   }
 
   ul > li > a.selected {

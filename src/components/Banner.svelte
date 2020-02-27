@@ -1,6 +1,6 @@
 <script>
   import { createEventDispatcher } from "svelte";
-  import TextDivider from "../../../components/TextDivider.svelte";
+  import TextDivider from "./TextDivider.svelte";
 
   const dispatch = createEventDispatcher();
 

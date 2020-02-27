@@ -39,6 +39,10 @@
   .read-more {
     margin: 10px 0 20px 0;
   }
+
+  .intro {
+    text-align: justify;
+  }
 </style>
 
 <div transition:fade>
