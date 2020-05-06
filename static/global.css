@@ -4,10 +4,7 @@
 @font-face {
   font-family: "icomoon";
   src: url("fonts/icomoon.eot?jd96ik");
-  src: url("fonts/icomoon.eot?jd96ik#iefix") format("embedded-opentype"),
-    url("fonts/icomoon.ttf?jd96ik") format("truetype"),
-    url("fonts/icomoon.woff?jd96ik") format("woff"),
-    url("fonts/icomoon.svg?jd96ik#icomoon") format("svg");
+  src: url("fonts/icomoon.eot?jd96ik#iefix") format("embedded-opentype"), url("fonts/icomoon.ttf?jd96ik") format("truetype"), url("fonts/icomoon.woff?jd96ik") format("woff"), url("fonts/icomoon.svg?jd96ik#icomoon") format("svg");
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -48,7 +45,10 @@
   --accent-color-6-hc: #ffffff;
 }
 
-body {
+body,
+textarea,
+button,
+input {
   font-family: "Work Sans", sans-serif;
   font-weight: 300;
   font-size: calc(12px + 0.55vw); /* Responsive base font size */
@@ -136,8 +136,7 @@ a {
   user-select: none;
   text-decoration: none;
   text-shadow: none;
-  transition: color 0.3s ease-out, border 0.3s ease-out,
-    background 0.3s ease-out, box-shadow 0.3s ease-out;
+  transition: color 0.3s ease-out, border 0.3s ease-out, background 0.3s ease-out, box-shadow 0.3s ease-out;
 }
 
 .button.accent1.button-solid {

@@ -1,0 +1,165 @@
+<script>
+  import { writable } from "svelte/store";
+  import axios from "axios";
+
+  export const user = writable({
+    name: "",
+    phone: "",
+    email: "",
+    message: ""
+  });
+
+  const handleSubmit = async event => {
+    const { email, phone, message, name } = $user;
+    const phonePart = phone
+      ? `Téléphone : ${phone}`
+      : " - Pas de téléphone fourni";
+
+    const response = await axios.post(
+      "https://api.elasticemail.com/v2/email/send",
+      null,
+      {
+        params: {
+          apikey: process.env.ELASTICEMAIL_KEY,
+          subject: `Message de ${name}`,
+          bodyText: `${message} \r\n\r\n ${phonePart} \r\n\r\n`,
+          from: "tech@l-z.fr",
+          fromName: "Blog de la psychanalyste",
+          sender: email,
+          senderName: name,
+          msgTo: process.env.ELASTICEMAIL_TO,
+          isTransactional: true
+        }
+      }
+    );
+  };
+</script>
+
+<style>
+  .content {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .block {
+    display: flex;
+    flex-direction: column;
+    padding: 12px 12px 0 0;
+  }
+
+  .block.reverse {
+    flex-direction: column-reverse;
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .entry {
+    margin-top: 10px;
+  }
+
+  label {
+    margin-top: 3px;
+  }
+
+  input[type="email"]:hover,
+  input[type="tel"]:hover,
+  input[type="text"]:hover,
+  textarea:hover {
+    border-color: var(--accent-color-3);
+  }
+
+  input[type="email"],
+  input[type="tel"],
+  input[type="text"],
+  textarea {
+    box-shadow: none;
+    border-radius: 0;
+    box-sizing: border-box;
+    width: 100%;
+    position: relative;
+    outline: 0;
+    border: none;
+    border-bottom: solid 1px var(--grey);
+    transition: all 0.3s;
+    background: 0 0;
+    line-height: 1.1em;
+  }
+
+  button[type="submit"] {
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    text-decoration: none;
+    text-shadow: none;
+    transition: color 0.3s ease-out, border 0.3s ease-out,
+      background 0.3s ease-out, box-shadow 0.3s ease-out !important;
+    border-radius: 0;
+    border: none;
+    padding: 12px 24px;
+    background: var(--accent-color-3);
+    color: var(--accent-color-1-hc);
+    max-width: 120px;
+  }
+
+  input:not(:placeholder-shown):invalid,
+  textarea:not(:placeholder-shown):invalid {
+    border-bottom: solid 1px red;
+  }
+
+  textarea {
+    resize: none;
+  }
+</style>
+
+<form class="form" on:submit|preventDefault={handleSubmit}>
+  <div class="content">
+    <div class="block">
+      <div class="entry">
+        <label>Nom</label>
+        <input
+          name="name"
+          type="text"
+          bind:value={$user.name}
+          placeholder="Marie Napoléon"
+          required
+          pattern="\S+.*" />
+      </div>
+      <div class="entry">
+        <label>E-mail</label>
+        <input
+          name="email"
+          type="email"
+          bind:value={$user.email}
+          placeholder="mon.nom@email.com" />
+      </div>
+      <div class="entry">
+        <label>Téléphone</label>
+        <input
+          name="phone"
+          type="tel"
+          bind:value={$user.phone}
+          placeholder="
+          " />
+      </div>
+    </div>
+    <div class="block">
+      <div class="entry">
+        <label>Message</label>
+        <textarea
+          name="message"
+          rows="8"
+          cols="45"
+          bind:value={$user.message}
+          required
+          placeholder="Bonjour, ..." />
+      </div>
+    </div>
+  </div>
+  <div class="block reverse">
+    <button type="submit">Envoyer</button>
+  </div>
+
+</form>

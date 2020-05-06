@@ -3,7 +3,7 @@
   import CompactMenu from "./CompactMenu.svelte";
   import { MenuIcon, XIcon } from "svelte-feather-icons";
 
-  export let segment;
+  // export let segment;
   let opened = false;
 
   const burgerClick = () => {

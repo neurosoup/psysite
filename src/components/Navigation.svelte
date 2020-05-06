@@ -1,5 +1,5 @@
 <script>
-  import FullMenu from "./FullMenu.svelte";
+  import FullMenu from "./FullMenuLeftAligned.svelte";
   import Burger from "./Burger.svelte";
 
   export let page;
