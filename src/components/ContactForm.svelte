@@ -2,18 +2,26 @@
   import { writable } from "svelte/store";
   import axios from "axios";
 
-  export const user = writable({
+  // pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[1-79](?:[\.\-\s]?\d\d){4}$"
+
+  let sent;
+
+  const DEFAULT_CONTACT = {
     name: "",
     phone: "",
     email: "",
     message: ""
-  });
+  };
+
+  export const user = writable(DEFAULT_CONTACT);
 
   const handleSubmit = async event => {
     const { email, phone, message, name } = $user;
     const phonePart = phone
       ? `Téléphone : ${phone}`
       : " - Pas de téléphone fourni";
+
+    sent = true;
 
     const response = await axios.post(
       "https://api.elasticemail.com/v2/email/send",
@@ -32,23 +40,24 @@
         }
       }
     );
+
+    setTimeout(() => (sent = false), 3000);
+
+    console.log("------------->response.data", response.data);
   };
 </script>
 
 <style>
   .content {
     display: flex;
-    align-items: flex-start;
-    flex-wrap: wrap;
+    flex-direction: column;
   }
   .block {
     display: flex;
     flex-direction: column;
     padding: 12px 12px 0 0;
-  }
-
-  .block.reverse {
-    flex-direction: column-reverse;
+    width: 100%;
+    max-width: 500px;
   }
 
   .form {
@@ -114,52 +123,55 @@
   }
 </style>
 
-<form class="form" on:submit|preventDefault={handleSubmit}>
-  <div class="content">
-    <div class="block">
-      <div class="entry">
-        <label>Nom</label>
-        <input
-          name="name"
-          type="text"
-          bind:value={$user.name}
-          placeholder="Marie Napoléon"
-          required
-          pattern="\S+.*" />
+{#if sent}
+  <p>Merci !</p>
+{:else}
+  <form class="form" on:submit|preventDefault={handleSubmit}>
+    <div class="content">
+      <div class="block">
+        <div class="entry">
+          <label>Nom (obligatoire)</label>
+          <input
+            name="name"
+            type="text"
+            bind:value={$user.name}
+            placeholder="Marie Napoléon"
+            required
+            pattern="\S+.*" />
+        </div>
+        <div class="entry">
+          <label>E-mail</label>
+          <input
+            name="email"
+            type="email"
+            bind:value={$user.email}
+            placeholder="mon.nom@email.com" />
+        </div>
+        <div class="entry">
+          <label>Téléphone</label>
+          <input
+            name="phone"
+            type="tel"
+            bind:value={$user.phone}
+            placeholder="01 00 00 00 00 ou +33 1 00 00 00 00" />
+        </div>
       </div>
-      <div class="entry">
-        <label>E-mail</label>
-        <input
-          name="email"
-          type="email"
-          bind:value={$user.email}
-          placeholder="mon.nom@email.com" />
-      </div>
-      <div class="entry">
-        <label>Téléphone</label>
-        <input
-          name="phone"
-          type="tel"
-          bind:value={$user.phone}
-          placeholder="
-          " />
+      <div class="block">
+        <div class="entry">
+          <label>Message (obligatoire)</label>
+          <textarea
+            name="message"
+            rows="8"
+            cols="45"
+            bind:value={$user.message}
+            required
+            placeholder="Bonjour, ..." />
+        </div>
       </div>
     </div>
     <div class="block">
-      <div class="entry">
-        <label>Message</label>
-        <textarea
-          name="message"
-          rows="8"
-          cols="45"
-          bind:value={$user.message}
-          required
-          placeholder="Bonjour, ..." />
-      </div>
+      <button type="submit">Envoyer</button>
     </div>
-  </div>
-  <div class="block reverse">
-    <button type="submit">Envoyer</button>
-  </div>
 
-</form>
+  </form>
+{/if}

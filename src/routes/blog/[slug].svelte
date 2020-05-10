@@ -16,6 +16,8 @@
 </script>
 
 <script>
+  import Disqus from "../../components/Disqus.svelte";
+  import GraphComment from "../../components/GraphComment.svelte";
   import { restore, query } from "svelte-apollo";
 
   import moment from "moment";
@@ -82,7 +84,16 @@
   article {
     display: flex;
     flex-direction: column;
-    margin: 20px 60px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 20px;
+    max-width: 768px;
+  }
+
+  @media only screen and (min-width: 768px) {
+    .comments {
+      padding: 20px 20%;
+    }
   }
 </style>
 
@@ -107,5 +118,10 @@
       {/each}
       {@html PrismicDOM.RichText.asHtml(result.data.post.content, linkResolver, htmlSerializer)}
     </article>
+    <div class="comments">
+      <!-- <Disqus /> -->
+      <GraphComment />
+    </div>
+
   {/await}
 </div>

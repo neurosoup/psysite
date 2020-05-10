@@ -64,7 +64,7 @@
   .masonry {
     display: grid;
     grid-template-columns: repeat(1, minmax(100px, 1fr));
-    grid-gap: 10px;
+    grid-gap: 20px;
     grid-auto-rows: 0;
   }
 
