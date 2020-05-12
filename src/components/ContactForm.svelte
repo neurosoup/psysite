@@ -153,7 +153,8 @@
             name="phone"
             type="tel"
             bind:value={$user.phone}
-            placeholder="01 00 00 00 00 ou +33 1 00 00 00 00" />
+            placeholder="
+            " />
         </div>
       </div>
       <div class="block">
@@ -165,7 +166,8 @@
             cols="45"
             bind:value={$user.message}
             required
-            placeholder="Bonjour, ..." />
+            placeholder="
+            " />
         </div>
       </div>
     </div>
