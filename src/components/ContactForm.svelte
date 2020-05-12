@@ -143,7 +143,7 @@
             name="email"
             type="email"
             bind:value={$user.email}
-            placeholder="mon.nom@email.com" />
+            placeholder="sophie.halberstad@email.com" />
         </div>
         <div class="entry">
           <label>Téléphone</label>
