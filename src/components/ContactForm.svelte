@@ -133,7 +133,8 @@
             name="name"
             type="text"
             bind:value={$user.name}
-            placeholder="Sophie Halberstad"
+            placeholder="
+            "
             required
             pattern="\S+.*" />
         </div>
@@ -143,7 +144,8 @@
             name="email"
             type="email"
             bind:value={$user.email}
-            placeholder="sophie.halberstad@email.com" />
+            placeholder="
+            " />
         </div>
         <div class="entry">
           <label>Téléphone</label>
