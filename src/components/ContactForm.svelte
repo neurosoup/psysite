@@ -42,8 +42,6 @@
     );
 
     setTimeout(() => (sent = false), 3000);
-
-    console.log("------------->response.data", response.data);
   };
 </script>
 
@@ -135,7 +133,7 @@
             name="name"
             type="text"
             bind:value={$user.name}
-            placeholder="Marie Napoléon"
+            placeholder="Sophie Halberstad"
             required
             pattern="\S+.*" />
         </div>
