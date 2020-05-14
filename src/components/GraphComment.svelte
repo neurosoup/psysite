@@ -3,6 +3,7 @@
   import { stores } from "@sapper/app";
 
   export let pageTitle;
+  export let commentTitle;
 
   const { page } = stores();
   const { host, path, params, query } = $page;
@@ -30,4 +31,6 @@
   </script>
 </svelte:head>
 
+<h2>{commentTitle}</h2>
+<p>Votre adresse de messagerie ne sera pas publiée</p>
 <div id="graphcomment" />

@@ -90,6 +90,10 @@
     max-width: 768px;
   }
 
+  .comments {
+    padding: 20px 20px;
+  }
+
   @media only screen and (min-width: 768px) {
     .comments {
       padding: 20px 20%;
@@ -120,7 +124,9 @@
     </article>
     <div class="comments">
       <!-- <Disqus /> -->
-      <GraphComment pageTitle={result.data.post.title[0].text} />
+      <GraphComment
+        pageTitle={result.data.post.title[0].text}
+        commentTitle="Vos réactions à propos de cet article" />
     </div>
 
   {/await}
