@@ -4,10 +4,15 @@
 
   export let pageTitle;
   export let commentTitle;
+  let graphCommentReady = false;
 
   const { page } = stores();
   const { host, path, params, query } = $page;
   const { slug } = $page.params;
+
+  const graphCommentScriptLoaded = () => {
+    graphCommentReady = true;
+  };
 
   onMount(() => {
     window.gc_params = {
@@ -26,11 +31,14 @@
   <script
     type="text/javascript"
     async="true"
-    src={`https://graphcomment.com/js/integration.js?${Math.round(Math.random() * 1e8)}`}>
+    src={`https://graphcomment.com/js/integration.js?${Math.round(Math.random() * 1e8)}`}
+    on:load={graphCommentScriptLoaded}>
 
   </script>
 </svelte:head>
 
-<h2>{commentTitle}</h2>
-<p>Votre adresse de messagerie ne sera pas publiée</p>
-<div id="graphcomment" />
+{#if graphCommentReady}
+  <h2>{commentTitle}</h2>
+  <p>Votre adresse de messagerie ne sera pas publiée</p>
+  <div id="graphcomment" />
+{/if}
