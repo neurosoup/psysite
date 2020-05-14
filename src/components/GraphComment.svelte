@@ -1,10 +1,22 @@
 <script>
   import { onMount } from "svelte";
+  import { stores } from "@sapper/app";
+
+  export let pageTitle;
+
+  const { page } = stores();
+  const { host, path, params, query } = $page;
+  const { slug } = $page.params;
 
   onMount(() => {
     window.gc_params = {
+      page_title: pageTitle,
       graphcomment_id: "psysite",
-      fixed_header_height: 0
+      identifier: slug,
+      canonical_url: `${host}${path}`,
+      disable_ads: true,
+      fixed_header_height: 0,
+      overlay: false
     };
   });
 </script>

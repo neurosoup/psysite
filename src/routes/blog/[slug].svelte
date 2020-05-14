@@ -120,7 +120,7 @@
     </article>
     <div class="comments">
       <!-- <Disqus /> -->
-      <GraphComment />
+      <GraphComment pageTitle={result.data.post.title[0].text} />
     </div>
 
   {/await}
