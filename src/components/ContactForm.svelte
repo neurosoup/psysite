@@ -40,8 +40,6 @@
         }
       }
     );
-
-    setTimeout(() => (sent = false), 3000);
   };
 </script>
 
@@ -128,7 +126,7 @@
     <div class="content">
       <div class="block">
         <div class="entry">
-          <label>Nom (obligatoire)</label>
+          <label>Nom</label>
           <input
             name="name"
             type="text"
@@ -144,8 +142,7 @@
             name="email"
             type="email"
             bind:value={$user.email}
-            placeholder="
-            " />
+            placeholder="Facultatif" />
         </div>
         <div class="entry">
           <label>Téléphone</label>
@@ -153,13 +150,12 @@
             name="phone"
             type="tel"
             bind:value={$user.phone}
-            placeholder="
-            " />
+            placeholder="Facultatif" />
         </div>
       </div>
       <div class="block">
         <div class="entry">
-          <label>Message (obligatoire)</label>
+          <label>Message</label>
           <textarea
             name="message"
             rows="8"
