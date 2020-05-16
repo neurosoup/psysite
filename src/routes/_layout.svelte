@@ -1,13 +1,16 @@
 <script>
   import Navigation from "../components/Navigation.svelte";
   import { stores } from "@sapper/app";
-  export let segment;
 
   const { page } = stores();
 </script>
 
 <style>
-
+  footer {
+    margin-top: 70px;
+    text-align: center;
+    font-size: medium;
+  }
 </style>
 
 <header>
@@ -15,5 +18,9 @@
 </header>
 <main>
   <slot />
-  <footer />
+  <footer>
+    © 2020 La Psychanalyste.
+    <a href="pages/mentions-legales">Mentions légales.</a>
+    <footer />
+  </footer>
 </main>
