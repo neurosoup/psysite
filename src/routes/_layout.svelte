@@ -15,4 +15,5 @@
 </header>
 <main>
   <slot />
+  <footer />
 </main>

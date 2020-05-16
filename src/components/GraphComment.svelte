@@ -18,11 +18,11 @@
     window.gc_params = {
       page_title: pageTitle,
       graphcomment_id: "psysite",
-      identifier: slug,
-      canonical_url: `${host}${path}`,
-      disable_ads: true,
-      fixed_header_height: 0,
-      overlay: false
+      // identifier: slug,
+      //canonical_url: `${host}${path}`,
+      // disable_ads: true,
+      fixed_header_height: 0
+      // overlay: false
     };
   });
 </script>
@@ -40,5 +40,5 @@
 {#if graphCommentReady}
   <h2>{commentTitle}</h2>
   <p>Votre adresse de messagerie ne sera pas publiée</p>
-  <div id="graphcomment" />
 {/if}
+<div id="graphcomment" />
